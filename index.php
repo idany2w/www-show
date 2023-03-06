@@ -19,7 +19,7 @@
 		<div class="row g-2 js-simple-search">
 			<div class="col">
 				<div class="input-group mb-3">
-					<input class="form-control js-simple-search__input" type="text" placeholder="Search...">
+					<input class="form-control js-foucs js-simple-search__input" type="text" placeholder="Search...">
 					<span class="input-group-text" id="basic-addon2">Search</span>
 				</div>
 			</div>
@@ -60,11 +60,69 @@
 	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD" crossorigin="anonymous"></script>
 	<script>
+		let focusable = document.querySelector('.js-foucs');
+		if(focusable){
+			focusable.focus()
+		}
+
+
+		function convertToEnglishSymbol(str) {
+			const mapping = {
+				"й": "q",
+				"ц": "w",
+				"у": "e",
+				"к": "r",
+				"е": "t",
+				"н": "y",
+				"г": "u",
+				"ш": "i",
+				"щ": "o",
+				"з": "p",
+				"х": "[",
+				"ъ": "]",
+				"ф": "a",
+				"ы": "s",
+				"в": "d",
+				"а": "f",
+				"п": "g",
+				"р": "h",
+				"о": "j",
+				"л": "k",
+				"д": "l",
+				"ж": ";",
+				"э": "'",
+				"я": "z",
+				"ч": "x",
+				"с": "c",
+				"м": "v",
+				"и": "b",
+				"т": "n",
+				"ь": "m",
+				"б": ",",
+				"ю": "."
+			};
+
+			// Get the current value of the input
+			const currentValue = event.target.value;
+
+			// Convert any Russian symbols in the input value to English symbols
+			let convertedValue = "";
+			for (let i = 0; i < currentValue.length; i++) {
+				const symbol = currentValue.charAt(i);
+				const englishSymbol = mapping[symbol.toLowerCase()] || symbol;
+				convertedValue += englishSymbol;
+			}
+
+			// Set the input value to the converted value
+			return convertedValue;
+		}
 		document.addEventListener('input', function(e){
 			let input = e.target;
 			let block = input.closest('.js-simple-search');
 
 			if(block === null) return;
+
+			input.value = convertToEnglishSymbol(input.value);
 
 			let searchText = input.value.trim();
 			
